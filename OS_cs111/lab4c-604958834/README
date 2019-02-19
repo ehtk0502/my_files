@@ -1,0 +1,10 @@
+#NAME: Hun Lee
+#ID: 604958834
+#EMAIL: ehtk0502@gmail.com
+
+
+Makefile: compile source code, produces desired files and make distribution in .tar.gz format
+
+README: explain whats the contents are
+
+lab4c*.c files: contains source code for the program

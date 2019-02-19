@@ -1,0 +1,17 @@
+Name: Hun Lee
+UID: 604958834
+
+logisticRegression.py - contains the source code for batch gradient descent and newton ralphson method.
+	it also has logics for calculating average log loss. Finally regularization was added to batch gradient 
+	method for finding beta value. it was implemented within the coding section and if the section of the 
+	code is not commented out, the output you see is regularized value.(in this code, it is commented out)
+
+linearRegression.py - contains the source code for three method for calculating beta. methods include closed
+	form, batch gradient, and stochastic gradient descent.
+
+report- contains answer to the questions asked in homework.
+
+README- description of the contents.
+
+note:
+a bit of outside of class research was needed for the homework.

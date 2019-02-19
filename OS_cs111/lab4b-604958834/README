@@ -1,0 +1,11 @@
+#NAME: Hun Lee
+#ID: 604958834
+#EMAIL:vehtk0502@gmail.com
+
+test.sh: contains the code for test casese
+
+lab4b.c: cointains the source code
+
+README: explains the contents of the tar file
+
+Makefile: contains code to compile, test, clean, and dist

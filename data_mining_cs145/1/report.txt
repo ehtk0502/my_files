@@ -1,0 +1,120 @@
+Name: Hun Lee
+UID: 604958834
+
+1. 
+a.
+closed form: Training MSE: 3.435  Testing MSE: 4.3961
+Beta:  [-0.0862246   0.05340575  0.65803045  0.41731923 -0.01772481  0.30069864
+  1.02871152  0.48383363  0.26685697  0.04573456  0.31944742  1.14776959
+  0.29366213  0.41491543  0.85180482 -0.05950309  0.47235562  0.46198106
+  0.00497427  0.0205398   0.41310473  0.98508025  0.15573467  0.8618602
+  0.41974331 -0.06893699  0.33317496  0.27766637 -0.04184791 -0.23599504
+  0.15020297  0.37745027  0.80256455  0.16053288  0.2744667   0.63461071
+  0.74135259  0.56079776  0.94058723 -0.0432542   0.80803615  0.93967722
+  0.12225161 -0.19933624  0.09398732  0.11412993  0.35479619  0.78582876
+  0.38900433  0.11804526  0.67618837  0.70377377  0.05526258 -0.24919095
+  0.87339793 -0.01381723  0.83138416  0.90569236  0.39980648  0.25235308
+  0.69692397 -0.00949757  0.17676599  0.45822485  0.02743899  1.16718165
+  0.04176352  1.01993881  0.56015024 -0.29761224  0.3177761   0.55781578
+  1.1376088   0.55190283  0.4099807   0.91987238  1.34076835  0.53297825
+  0.63648277  0.22140583  0.21469531 -0.00609269  0.82898663  0.46891532
+ -0.25571565  0.1972989   1.38639797  0.87219453  0.65782257  0.54983464
+  1.11698567  0.94267463  0.79030138  0.30055848  0.53288973  0.22873689
+  0.86702876  0.98591924  0.08132528  0.30834368  0.70121488]
+
+batch gradient descent: Training MSE: 4.24465  Testing MSE: 4.8836
+Beta:  [ 0.57276106  0.05082548  0.73105817  0.51540147  0.27906169  0.11053512
+  0.42865157  0.46198307  0.34746614  0.22601193  0.27415847  0.68210709
+  0.08081466  0.45540849  0.60670633 -0.00500711  0.33420013  0.65053229
+  0.43173556  0.65007188  0.31784401  0.4271154   0.63937736  0.29457678
+  0.40090351  0.12026373  0.26189225  0.18296605  0.45361393  0.00908446
+  0.26383139  0.23900161  0.17868449  0.60323424  0.15032208  0.57772919
+  0.24344914  0.73892438  0.34303838  0.13495886  0.70558169  0.82930468
+  0.35604336  0.58174805  0.01404225  0.54552039  0.63664249  0.69274172
+  0.27800666  0.12032855  0.6090735   0.24137796  0.35872243  0.42345828
+  0.37922526  0.55702854  0.60781965  0.77940553  0.75141908  0.49591875
+  0.83319241  0.50334268  0.57075319  0.49767253  0.37097402  0.95771123
+  0.20109256  0.48061868  0.47707705  0.03760343  0.11880793  0.50861435
+  0.55023041  0.66160253  0.67736792  0.44523105  0.90558972  0.46454799
+  0.7675892   0.60117674  0.04337665  0.00775559  0.74768191  0.12658701
+  0.15728722  0.741785    1.00689877  0.44293539  0.90149895  0.26102111
+  0.74890712  0.62991916  0.24608577  0.2637123   0.41894777  0.60151767
+  0.58919875  0.50209479  0.11970923  0.16973342  0.6263184 ]
+
+stochastic: Training MSE: 3.902  Testing MSE: 4.8747
+Beta:  [ 0.15385703  0.09760486  0.6678363   0.45474277 -0.00417171  0.29804968
+  1.03280545  0.54556379  0.31154369  0.11522908  0.32267332  1.18313655
+  0.21380381  0.39729505  0.89193577 -0.11069628  0.53044583  0.52494129
+  0.01269683  0.0317344   0.34207409  0.95923072  0.21678856  0.80932917
+  0.28566978 -0.06446559  0.32225883  0.28801804 -0.0735134  -0.24616204
+  0.15058135  0.3959897   0.77031176  0.17748269  0.29018256  0.6625569
+  0.75980349  0.49835596  0.94362335  0.05025627  0.81514665  0.93406336
+  0.09465792 -0.1305014   0.08740883  0.17936746  0.38325713  0.78889346
+  0.44945491  0.1255239   0.67794368  0.77875357  0.0366181  -0.24648813
+  0.86740379  0.02752376  0.83728039  0.9317138   0.44096182  0.25485114
+  0.78051785 -0.01348062  0.21300459  0.43627982  0.13989784  1.17292619
+  0.05598325  1.03264397  0.57190139 -0.24794805  0.2798797   0.48593051
+  1.09216699  0.54144514  0.36687534  0.96468572  1.32728495  0.49835313
+  0.63218386  0.13434835  0.25522079 -0.02830436  0.76083354  0.42880719
+ -0.2353101   0.17762562  1.37907761  0.82790998  0.57610965  0.54980712
+  1.1396329   1.00897134  0.7964147   0.21151823  0.59063422  0.27865945
+  0.87089009  1.04604255 -0.00310387  0.27632046  0.74256523]
+
+training data for each varies a little, however considering the number of data points
+analyzed difference in MSE is not significant. Unlike the training data, MSE for testing
+data is fairly close to each other. The reason why MSE is similar is that all method uses
+the same equation. the difference between closed form and descent method is that latter tries
+to guess initial beta and using the rate of each weight to find the minimized MSE.
+
+b.
+closed form: Training MSE: 3.435  Testing MSE: 4.4
+	normalization did not have much effect on the closed form
+
+batch gradient descent: Training MSE: 3.4690  Testing MSE: 4.387
+	normalization improved the testing result slightly
+	
+stochastic: Training MSE: 4.4  Testing MSE: 5.6
+	normalization worsened the result 
+
+we normalize data so that data entries can be normally distributed. and doing so enable us to
+better estimate our target value. this turned out to be the case for batch gradient descent.
+however for stochastic, its performance was negatively affected. it seems that normalized data
+has larger effect for stochastic descent, and as a reason for that it is performing less.
+
+2.
+a.
+batch
+Beta:  [ 8.67146677 -9.20748509 -5.01447232 -6.05230604 -0.70983721]
+Training avgLogL:  0.023490137918113142
+Test accuracy:  0.9890510948905109
+pros: accuracy
+cons: if the data is large, it can take a long time. also, memory problem can rise.
+
+newton
+Beta:  [ 2.85218293 -1.77973705 -0.9523404  -1.19082125  0.11877059]
+Training avgLogL:  0.04212214993792784
+Test accuracy:  0.9817518248175182
+pros: this method is very fast and converges very fast to the root.
+cons: computing the second order derivative can be constly, and when it is used for
+	non convex equations, the value can oscillate.
+
+Accuracy and avgLogL for these two method is very close to one another. these two methods
+have a similar value because they share similar logics in how theye are implemented. both
+method uses random initial beta and try to move along the curve (tangent) line to look for
+the local minimum that minimizes the error. both method seek to achieve the same goal and
+that is why the values are similar.
+
+b.
+batch
+Training avgLogL:  0.02002558853512698
+Test accuracy:  0.9890510948905109
+
+compared to non-regularized batch, average log loss for regularized batch is slightly lower.
+test accuracy stayed the same.
+it makes sense that avgLogL value has decreased. regularization is used to fined best fitted
+	model to better estimation for our target value. that means it will decrease error rate.
+	thus avgLogL value decreases.
+
+
+
+ 

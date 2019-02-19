@@ -1,0 +1,55 @@
+#NAME: Hun Lee
+#ID: 604958834
+#EMAIL: ehtk0502@gmail.com
+
+
+Makefile: compile source code, produces desired files and make distribution in .tar.gz format
+
+README: explain whats the codes are
+
+SortedList.h: header for the SortedList.c and list source code
+
+SortedList.c: sources code for list operations
+
+lab2b_*.png: containing desired graphs
+
+lab2b_list.c: source code for list logics
+
+lab2b_list.csv: test case output
+
+profile.out: shows where time is spent on the operations
+
+questions:
+2.3.1
+	for 1 thread mutex, depending on the size of the list, where time spent varies
+	    with small list, time is spent on mutex, otherwise, on the list operation
+	    for 1 thread spin, tims is spent on operations
+	    for 2 thread mutex, it is similar to 1 thread case
+	    for 2 thread spin, time spent on spin and operations is similar
+	    
+	    for mutex, if the list size is big, then operations otherwise, mutex
+	    for spin, if 1 thread, operation is expensive, for 2 thread, they are equally expensive
+	    
+	    spinLock will use most of the CPU time. thread keeps waiting to obtain the lock.
+	    
+	    mux varies with the size, with big list, operation will run more. if the size is small then mux will take more time.
+	    
+2.3.2
+	spinLock consumes most of the cycle waiting to obtain the lock.
+	
+	if there are more thread competing for the same lock, then there are less chance to get the lock and more threads are
+	   left waiting to obtain the lock.
+	   
+2.3.3
+	more contender for the same lock means, less chace of getting the lock, so the time spent waiting for the lock will increase
+	
+	unlike, spinning, mutex goes does context switch, not consuming all the cycles. that leads to less increase in completion time
+	
+	wait time is for all threads, completion time is wall time based
+	
+2.3.4
+	with number of list increases  throughput increases. that is because of less contention for the lock
+	
+	to ceratin point it will increase but as parallelism reaches optimal rate, it will flat out.
+	
+	no, less contention means, less time spent on acquiring the lock, that will directly improve throughput rate.

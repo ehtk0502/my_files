@@ -1,0 +1,253 @@
+Total: 208 samples
+     199  95.7%  95.7%      208 100.0% opHandler
+       4   1.9%  97.6%        8   3.8% SortedList_lookup
+       4   1.9%  99.5%        4   1.9% __strcmp_sse42
+       1   0.5% 100.0%        1   0.5% SortedList_insert
+       0   0.0% 100.0%      208 100.0% __clone
+       0   0.0% 100.0%      208 100.0% start_thread
+ROUTINE ====================== opHandler in /u/cs/ugrad/byung/Desktop/CS111/hw2b/lab2_list.c
+   199    208 Total samples (flat / cumulative)
+     .      .   42:   int value;
+     .      .   43:   value = abs((int) *elements[index].key) % listNum;
+     .      .   44:   return value;
+     .      .   45: }
+     .      .   46: 
+---
+     .      .   47: void* opHandler(void* argument){
+     .      .   48:   int Numthread = *((int*) argument);
+     .      .   49:   int i;
+     .      .   50:   struct timespec sub_begin, sub_done;
+     .      .   51:   
+     .      .   52:   for (i = Numthread; i < m_element; i=i + threadNum){
+     .      .   53:     int hashNum = hashGenerate(i);
+     .      .   54:     switch(optionSync){
+     .      .   55:     case MUTEX:
+     .      .   56:       clock_gettime(CLOCK_MONOTONIC, &sub_begin);
+     .      .   57:       pthread_mutex_lock(&lock[hashNum]);
+     .      .   58:       clock_gettime(CLOCK_MONOTONIC, &sub_done);
+     .      .   59:       lockTime += (1000000000 * (sub_done.tv_sec - sub_begin.tv_sec)) + (sub_done.tv_nsec - sub_begin.tv_nsec);
+     .      .   60:       SortedList_insert(mLists[hashNum], &elements[i]);
+     .      .   61:       pthread_mutex_unlock(&lock[hashNum]);
+     .      .   62:       break;
+     .      .   63:     case NO_LOCK:
+     .      .   64:       SortedList_insert(mLists[hashNum], &elements[i]);
+     .      .   65:       break;
+     .      .   66:     case SPIN_LOCK:
+   137    137   67:       while(__sync_lock_test_and_set(&spinLock[hashNum], 1) == 1);
+     1      2   68:       SortedList_insert(mLists[hashNum], &elements[i]);
+     .      .   69:       __sync_lock_release(&spinLock[hashNum]);
+     .      .   70:       break;
+     .      .   71:     }
+     .      .   72:   }
+     .      .   73:   int listLength = 0;
+     .      .   74:   switch(optionSync){
+     .      .   75:   case NO_LOCK:
+     .      .   76:     for(i = 0; i < listNum; i++){
+     .      .   77:       listLength += SortedList_length(mLists[i]);
+     .      .   78:     }
+     .      .   79:     break;
+     .      .   80:   case MUTEX:
+     .      .   81:     for(i = 0; i < listNum; i++){
+     .      .   82:       clock_gettime(CLOCK_MONOTONIC, &sub_begin);
+     .      .   83:       pthread_mutex_lock(&lock[i]);
+     .      .   84:       clock_gettime(CLOCK_MONOTONIC, &sub_done);
+     .      .   85:       lockTime += (1000000000 * (sub_done.tv_sec - sub_begin.tv_sec)) + (sub_done.tv_nsec - sub_begin.tv_nsec);
+     .      .   86:       listLength += listLength+ SortedList_length(mLists[i]);
+     .      .   87:       pthread_mutex_unlock(&lock[i]);
+     .      .   88:     }
+     .      .   89:     break;
+     .      .   90:   case SPIN_LOCK:
+     .      .   91:     for(i = 0; i < listNum; i++){
+     .      .   92:       while(__sync_lock_test_and_set(&spinLock[i], 1) == 1);
+     .      .   93:       listLength += listLength+ SortedList_length(mLists[i]);
+     .      .   94:       __sync_lock_release(&spinLock[i]);
+     .      .   95:     }
+     .      .   96:     break;
+     .      .   97:   }
+     .      .   98:   
+     .      .   99:   if(listLength < 0){
+     .      .  100:     fprintf(stderr, "wrong number of elements\n");
+     .      .  101:     exit(2);
+     .      .  102:   }
+     .      .  103:   
+     .      .  104:   SortedListElement_t* returnedData;
+     .      .  105:   int result;
+     .      .  106:   for (i = Numthread; i < m_element; i = i + threadNum){
+     .      .  107:     int hashNum = hashGenerate(i);
+     .      .  108:     switch(optionSync){
+     .      .  109:     case NO_LOCK:
+     .      .  110:       returnedData = SortedList_lookup(mLists[hashNum], elements[i].key);
+     .      .  111:       if (returnedData == NULL){
+     .      .  112: 	fprintf(stderr, "lookup error\n");
+     .      .  113: 	exit(2);
+     .      .  114:       }
+     .      .  115:       result = SortedList_delete(returnedData);
+     .      .  116:       if (result == 1){
+     .      .  117: 	fprintf(stderr, "delete error\n");
+     .      .  118: 	exit(2);
+     .      .  119:       }
+     .      .  120:       break;
+     .      .  121:     case MUTEX:
+     .      .  122:       clock_gettime(CLOCK_MONOTONIC, &sub_begin);
+     .      .  123:       pthread_mutex_lock(&lock[hashNum]);
+     .      .  124:       clock_gettime(CLOCK_MONOTONIC, &sub_done);
+     .      .  125:       lockTime += (1000000000 * (sub_done.tv_sec - sub_begin.tv_sec)) + (sub_done.tv_nsec - sub_begin.tv_nsec);
+     .      .  126:       returnedData = SortedList_lookup(mLists[hashNum], elements[i].key);
+     .      .  127:       if (returnedData == NULL){
+     .      .  128: 	fprintf(stderr, "lookup error\n");
+     .      .  129: 	exit(2);
+     .      .  130:       }
+     .      .  131:       result = SortedList_delete(returnedData);
+     .      .  132:       if (result == 1){
+     .      .  133: 	fprintf(stderr, "delete error\n");
+     .      .  134: 	exit(2);
+     .      .  135:       }
+     .      .  136:       pthread_mutex_unlock(&lock[hashNum]);
+     .      .  137:       break;
+     .      .  138:     case SPIN_LOCK:
+    61     61  139:       while(__sync_lock_test_and_set(&spinLock[hashNum], 1) == 1);
+     .      8  140:       returnedData = SortedList_lookup(mLists[hashNum], elements[i].key);
+     .      .  141:       if (returnedData == NULL){
+     .      .  142: 	fprintf(stderr, "lookup error\n");
+     .      .  143: 	exit(2);
+     .      .  144:       }
+     .      .  145:       result = SortedList_delete(returnedData);
+     .      .  146:       if (result == 1){
+     .      .  147: 	fprintf(stderr, "delete error\n");
+     .      .  148: 	exit(2);
+     .      .  149:       }
+     .      .  150:       __sync_lock_release(&spinLock[hashNum]);
+     .      .  151:       break;
+     .      .  152:     }
+     .      .  153:   }
+     .      .  154:   return NULL;
+     .      .  155: }
+---
+     .      .  156: 
+     .      .  157: void freeMem(){
+     .      .  158:   if(optionSync ==MUTEX){
+     .      .  159:     free(lock);
+     .      .  160:   }
+ROUTINE ====================== opHandler in /u/cs/ugrad/byung/Desktop/CS111/hw2b/lab2_list.c
+   199    208 Total samples (flat / cumulative)
+     .      .   42:   int value;
+     .      .   43:   value = abs((int) *elements[index].key) % listNum;
+     .      .   44:   return value;
+     .      .   45: }
+     .      .   46: 
+---
+     .      .   47: void* opHandler(void* argument){
+     .      .   48:   int Numthread = *((int*) argument);
+     .      .   49:   int i;
+     .      .   50:   struct timespec sub_begin, sub_done;
+     .      .   51:   
+     .      .   52:   for (i = Numthread; i < m_element; i=i + threadNum){
+     .      .   53:     int hashNum = hashGenerate(i);
+     .      .   54:     switch(optionSync){
+     .      .   55:     case MUTEX:
+     .      .   56:       clock_gettime(CLOCK_MONOTONIC, &sub_begin);
+     .      .   57:       pthread_mutex_lock(&lock[hashNum]);
+     .      .   58:       clock_gettime(CLOCK_MONOTONIC, &sub_done);
+     .      .   59:       lockTime += (1000000000 * (sub_done.tv_sec - sub_begin.tv_sec)) + (sub_done.tv_nsec - sub_begin.tv_nsec);
+     .      .   60:       SortedList_insert(mLists[hashNum], &elements[i]);
+     .      .   61:       pthread_mutex_unlock(&lock[hashNum]);
+     .      .   62:       break;
+     .      .   63:     case NO_LOCK:
+     .      .   64:       SortedList_insert(mLists[hashNum], &elements[i]);
+     .      .   65:       break;
+     .      .   66:     case SPIN_LOCK:
+   137    137   67:       while(__sync_lock_test_and_set(&spinLock[hashNum], 1) == 1);
+     1      2   68:       SortedList_insert(mLists[hashNum], &elements[i]);
+     .      .   69:       __sync_lock_release(&spinLock[hashNum]);
+     .      .   70:       break;
+     .      .   71:     }
+     .      .   72:   }
+     .      .   73:   int listLength = 0;
+     .      .   74:   switch(optionSync){
+     .      .   75:   case NO_LOCK:
+     .      .   76:     for(i = 0; i < listNum; i++){
+     .      .   77:       listLength += SortedList_length(mLists[i]);
+     .      .   78:     }
+     .      .   79:     break;
+     .      .   80:   case MUTEX:
+     .      .   81:     for(i = 0; i < listNum; i++){
+     .      .   82:       clock_gettime(CLOCK_MONOTONIC, &sub_begin);
+     .      .   83:       pthread_mutex_lock(&lock[i]);
+     .      .   84:       clock_gettime(CLOCK_MONOTONIC, &sub_done);
+     .      .   85:       lockTime += (1000000000 * (sub_done.tv_sec - sub_begin.tv_sec)) + (sub_done.tv_nsec - sub_begin.tv_nsec);
+     .      .   86:       listLength += listLength+ SortedList_length(mLists[i]);
+     .      .   87:       pthread_mutex_unlock(&lock[i]);
+     .      .   88:     }
+     .      .   89:     break;
+     .      .   90:   case SPIN_LOCK:
+     .      .   91:     for(i = 0; i < listNum; i++){
+     .      .   92:       while(__sync_lock_test_and_set(&spinLock[i], 1) == 1);
+     .      .   93:       listLength += listLength+ SortedList_length(mLists[i]);
+     .      .   94:       __sync_lock_release(&spinLock[i]);
+     .      .   95:     }
+     .      .   96:     break;
+     .      .   97:   }
+     .      .   98:   
+     .      .   99:   if(listLength < 0){
+     .      .  100:     fprintf(stderr, "wrong number of elements\n");
+     .      .  101:     exit(2);
+     .      .  102:   }
+     .      .  103:   
+     .      .  104:   SortedListElement_t* returnedData;
+     .      .  105:   int result;
+     .      .  106:   for (i = Numthread; i < m_element; i = i + threadNum){
+     .      .  107:     int hashNum = hashGenerate(i);
+     .      .  108:     switch(optionSync){
+     .      .  109:     case NO_LOCK:
+     .      .  110:       returnedData = SortedList_lookup(mLists[hashNum], elements[i].key);
+     .      .  111:       if (returnedData == NULL){
+     .      .  112: 	fprintf(stderr, "lookup error\n");
+     .      .  113: 	exit(2);
+     .      .  114:       }
+     .      .  115:       result = SortedList_delete(returnedData);
+     .      .  116:       if (result == 1){
+     .      .  117: 	fprintf(stderr, "delete error\n");
+     .      .  118: 	exit(2);
+     .      .  119:       }
+     .      .  120:       break;
+     .      .  121:     case MUTEX:
+     .      .  122:       clock_gettime(CLOCK_MONOTONIC, &sub_begin);
+     .      .  123:       pthread_mutex_lock(&lock[hashNum]);
+     .      .  124:       clock_gettime(CLOCK_MONOTONIC, &sub_done);
+     .      .  125:       lockTime += (1000000000 * (sub_done.tv_sec - sub_begin.tv_sec)) + (sub_done.tv_nsec - sub_begin.tv_nsec);
+     .      .  126:       returnedData = SortedList_lookup(mLists[hashNum], elements[i].key);
+     .      .  127:       if (returnedData == NULL){
+     .      .  128: 	fprintf(stderr, "lookup error\n");
+     .      .  129: 	exit(2);
+     .      .  130:       }
+     .      .  131:       result = SortedList_delete(returnedData);
+     .      .  132:       if (result == 1){
+     .      .  133: 	fprintf(stderr, "delete error\n");
+     .      .  134: 	exit(2);
+     .      .  135:       }
+     .      .  136:       pthread_mutex_unlock(&lock[hashNum]);
+     .      .  137:       break;
+     .      .  138:     case SPIN_LOCK:
+    61     61  139:       while(__sync_lock_test_and_set(&spinLock[hashNum], 1) == 1);
+     .      8  140:       returnedData = SortedList_lookup(mLists[hashNum], elements[i].key);
+     .      .  141:       if (returnedData == NULL){
+     .      .  142: 	fprintf(stderr, "lookup error\n");
+     .      .  143: 	exit(2);
+     .      .  144:       }
+     .      .  145:       result = SortedList_delete(returnedData);
+     .      .  146:       if (result == 1){
+     .      .  147: 	fprintf(stderr, "delete error\n");
+     .      .  148: 	exit(2);
+     .      .  149:       }
+     .      .  150:       __sync_lock_release(&spinLock[hashNum]);
+     .      .  151:       break;
+     .      .  152:     }
+     .      .  153:   }
+     .      .  154:   return NULL;
+     .      .  155: }
+---
+     .      .  156: 
+     .      .  157: void freeMem(){
+     .      .  158:   if(optionSync ==MUTEX){
+     .      .  159:     free(lock);
+     .      .  160:   }

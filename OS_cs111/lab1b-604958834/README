@@ -1,0 +1,17 @@
+NAME: Hun Lee
+EMAIL: ehtk0502@gmail.com
+ID: 604958834
+SLIPDAYS: 0
+
+lab1b-client:
+	contains the source file for the client part of the program
+lan1b-server:
+	contains the source file for the server part of the program
+
+Makefile:
+	default:
+		compiles the source code to executable
+	dist:	
+		put required files in a tar file
+	clean:
+		clean up the files that are made from make file

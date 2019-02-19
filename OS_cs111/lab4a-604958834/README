@@ -1,0 +1,18 @@
+NAME: Hun Lee
+EMAIL: ehtk0502@gmail.com
+ID: 604958834
+SLIPDAYS: 0
+
+my_beaglebone.jpg: my selfie with the beaglebone
+
+connected.png: screen shot of ifconfig and hostname
+
+copy.png: screen shot of copying c source fille into beaglebone
+
+build_run.png: screen shot of building and run a trivial hello world prgram
+
+git.png: screen shot of intalling git and clone repository
+
+Makefile: build files into a tarfile
+
+beaglebone's s/n and mac #:  BBGW17100606, 2CF7F1066E06

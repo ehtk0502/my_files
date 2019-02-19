@@ -1,0 +1,26 @@
+NAME:Hun Lee
+EMAIL:ehtk0502@gmail.com
+ID:604958834
+
+lab0.c: contains the source file of the executable.
+
+Makefile:
+	default:
+		compiles the source code to executbale
+	dist:
+		put the required files in a tar file
+	check:
+		check if the program runs correctly in certain situation
+	clean:
+		clean up the files that are made from the making the program.
+backtrae.png:
+	captured image of where sigfualt takes place.
+nullptr.png:
+	caprued image of segfault variable that shows the variable is indeed a nullptr.
+source:
+	open(2)- https://linux.die.net/man/2/open
+	getopt(3)- https://linux.die.net/man/3/getopt
+	write(2)- http://man7.org/linux/man-pages/man2/write.2.html
+	errno(3)- http://man7.org/linux/man-pages/man3/errno.3.html
+	siganl - https://www.tutorialspoint.com/c_standard_library/c_function_signal.htm
+	read(2)- http://man7.org/linux/man-pages/man2/read.2.html

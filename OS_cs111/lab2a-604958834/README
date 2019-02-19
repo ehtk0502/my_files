@@ -1,0 +1,52 @@
+NAME: Hun Lee
+EMAIL: ehtk0502@gmail.com
+ID: 604958834
+
+lab2_add.c: contains the source file of the program
+lab2_list.c: contains the source file of the program
+
+lab2_add-1.png
+lab2_add-2.png
+lab2_add-3.png
+lab2_add-4.png
+lab2_add-5.png
+
+lab2_list-1.png
+lab2_list-2.png
+lab2_list-3.png
+lab2_list-4.png
+	: files above contains graph of the operations done in add and list.
+test.sh:
+	contains the test cases
+Makefile: compiles, clean, make, and clean the files contained in it.
+
+README: explanation of the files contained.
+
+2.1.1
+because larger amount of iterations is more likely to cause error
+smaller means less threads. thus less operation means less error
+
+2.1.2
+yield causes context switch and inturrupt to take place which slows down the program
+context overhead causes over-head, and threads spend time waiting more.
+no beacuse treads operates in parallel and clock does not catch that
+
+2.1.3
+because of overhead caused by context switch. and thread hold its own memory which causes memory lackage
+average cost of iteration decreases. and it decreases to the point where it doesnt deceases any more.
+	that can be consisdered as a cost.
+2.1.4
+low number means less fight between the threads, so it wont matter much.
+because more threads try to hold the critical section and other threads have to wait
+
+2.2.1
+time spent with sorted lists increases at a faster rate because critical sections are costly.
+the tendency of the graph is increasing because with more threads there is more race conditions
+as said above amount of tast sorted list has to do within the critical section is substantially more than add
+   that is where the differences come from
+
+2.2.2
+for both operations the graph somewhat increases linearly increase. But as the number of thread increases spin lock costs
+    more. that is becuase spin lock spends more time waiting for the lock.
+both increases at a similar rate. mutex grows slowly with higher thread number where as spin lock keeps increasing which makes
+     sense because as mentioned above more threads are stuck waiting for the lock.
