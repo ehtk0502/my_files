@@ -1,0 +1,12 @@
+#!/bin/bash
+
+sed 's/<[^>]*>//g'|
+tr [:upper:] [:lower:]|
+tr -s '\.' ' '|
+sed '/^\s*$/d'|
+sed -e '1,3d'|
+head -n -7 |
+awk 'NR%2==0'|
+tr '\`' "\'" |
+tr -s '[,[:space:]]' '\n' |
+sort -u

@@ -1,0 +1,44 @@
+#!/bin/bash
+
+dir=$1
+D=`ls -a $dir | sort`
+IFS=$'\n'
+
+for F in $D
+do
+	for F2 in $D
+	do
+		if [ -d "$dir/$F" ] || [ -L "$dir/$F" ] || [ "$dir/$F" = . ] || [ "$dir/$F" = .. ]
+		then
+			break //directory or symbolilink
+		fi
+		if [ -d "$dir/$F" ] || [ -L "$dir/$F" ] || [ "$dir/$F" = . ] || [ "$dir/$F" = .. ]
+		then
+			continue
+		fi
+		if [ ! -f "$dir/$F" ] || [ ! -r "$dir/$F" ]
+		then
+			break
+		fi
+		if [ ! -f "$dir/$F2" ] || [ ! -r "$dir/$F2" ]
+		then
+			continue
+		fi
+		inodeF1=`stat -c '%i' $dir/$F`
+		inodeF2=`stat -c '%i' $dir/$F2`
+		if [ $inodeF1 != $inodeF2 ]
+		then
+			cmp -s $dir/$F $dir/$F2
+			let comp=$?
+			if [ $comp == 0 ]
+			then
+				rm $dir/$F2
+				ln $dir/$F $dir/$F2
+				continue
+				fi
+		else
+			echo "already hard linked"
+		fi
+
+	done
+done

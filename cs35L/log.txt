@@ -1,0 +1,226 @@
+**setting up the host server.
+debian@704839317:~$ ssh-keygen
+Generating public/private rsa key pair.
+Enter file in which to save the key (/home/debian/.ssh/id_rsa):
+/home/debian/.ssh/id_rsa already exists.
+Overwrite (y/n)? y
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in /home/debian/.ssh/id_rsa.
+Your public key has been saved in /home/debian/.ssh/id_rsa.pub.
+The key fingerprint is:
+eb:7c:5d:15:bc:96:04:23:f2:73:c6:e7:66:a5:52:85 debian@704839317.lasr.cs.ucla.edu
+The key's randomart image is:
++---[RSA 2048]----+
+|         . . oo..|
+|          o o E= |
+|           o +o.=|
+|            +.o=o|
+|        S   . o= |
+|         .   .+  |
+|        .  . .   |
+|       o  . .    |
+|        o.       |
++-----------------+
+
+debian@704839317:~$ sudo useradd -d /home/niki -m niki
+debian@704839317:~$ sudo passwd niki
+Enter new UNIX password:
+Retype new UNIX password:
+passwd: password updated successfully
+
+debian@704839317:~$ sudo useradd -d /home/niki -m niki
+debian@704839317:~$ sudo passwd niki
+Enter new UNIX password:
+Retype new UNIX password:
+passwd: password updated successfully
+debian@704839317:~$ ^C
+debian@704839317:~$ sudo mkdir /home/niki/.ssh
+debian@704839317:~$ cd /home/niki
+debian@704839317:/home/niki$ sudo chown -R niki .ssh
+debian@704839317:/home/niki$ sudo chmod 700 .ssh
+debian@704839317:/home/niki$ ifconfig
+SoftAp0   Link encap:Ethernet  HWaddr 9c:1d:58:3e:95:09
+          inet addr:192.168.8.1  Bcast:192.168.8.255  Mask:255.255.255.0
+          inet6 addr: fe80::9e1d:58ff:fe3e:9509/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:36 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:0 (0.0 B)  TX bytes:7840 (7.6 KiB)
+
+lo        Link encap:Local Loopback
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:384 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:384 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1
+          RX bytes:34368 (33.5 KiB)  TX bytes:34368 (33.5 KiB)
+
+usb0      Link encap:Ethernet  HWaddr 9c:1d:58:3e:95:0b
+          inet addr:192.168.7.2  Bcast:192.168.7.3  Mask:255.255.255.252
+          inet6 addr: fe80::9e1d:58ff:fe3e:950b/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:10957 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:9740 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:1294802 (1.2 MiB)  TX bytes:11272336 (10.7 MiB)
+
+usb1      Link encap:Ethernet  HWaddr 9c:1d:58:3e:95:0e
+          inet addr:192.168.6.2  Bcast:192.168.6.3  Mask:255.255.255.252
+          UP BROADCAST MULTICAST  MTU:1500  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+wlan0     Link encap:Ethernet  HWaddr 2c:f7:f1:06:6e:06
+          inet addr:172.31.18.210  Bcast:172.31.19.255  Mask:255.255.252.0
+          inet6 addr: fe80::2ef7:f1ff:fe06:6e06/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST DYNAMIC  MTU:1500  Metric:1
+          RX packets:80310 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:20200 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:67043828 (63.9 MiB)  TX bytes:1822947 (1.7 MiB)
+
+inet addr:192.168.43.173
+my partners - 192.168.43.66
+
+debian@704839317:/home/niki$ ping 192.168.43.66
+PING 192.168.43.66 (192.168.43.66) 56(84) bytes of data.
+64 bytes from 192.168.43.66: icmp_seq=1 ttl=64 time=2009 ms
+64 bytes from 192.168.43.66: icmp_seq=2 ttl=64 time=1009 ms
+64 bytes from 192.168.43.66: icmp_seq=3 ttl=64 time=40.6 ms
+64 bytes from 192.168.43.66: icmp_seq=4 ttl=64 time=321 ms
+64 bytes from 192.168.43.66: icmp_seq=5 ttl=64 time=343 ms
+64 bytes from 192.168.43.66: icmp_seq=6 ttl=64 time=573 ms
+64 bytes from 192.168.43.66: icmp_seq=7 ttl=64 time=185 ms
+64 bytes from 192.168.43.66: icmp_seq=8 ttl=64 time=408 ms
+64 bytes from 192.168.43.66: icmp_seq=9 ttl=64 time=29.3 ms
+64 bytes from 192.168.43.66: icmp_seq=10 ttl=64 time=454 ms
+64 bytes from 192.168.43.66: icmp_seq=11 ttl=64 time=480 ms
+64 bytes from 192.168.43.66: icmp_seq=12 ttl=64 time=102 ms
+64 bytes from 192.168.43.66: icmp_seq=13 ttl=64 time=129 ms
+64 bytes from 192.168.43.66: icmp_seq=14 ttl=64 time=547 ms
+64 bytes from 192.168.43.66: icmp_seq=15 ttl=64 time=174 ms
+64 bytes from 192.168.43.66: icmp_seq=16 ttl=64 time=193 ms
+64 bytes from 192.168.43.66: icmp_seq=17 ttl=64 time=410 ms
+^C
+--- 192.168.43.66 ping statistics ---
+18 packets transmitted, 18 received, 0% packet loss, time 17016ms
+rtt min/avg/max/mdev = 26.737/413.420/2009.206/455.526 ms, pipe 3
+
+I set up the server and gave my ip address to my partner.
+and let him connect to my server as a client
+
+now that i finshed setting up the server, i wanted to connect to
+my partner's server as a client.
+
+debian@704839317:/home/niki$ ssh-keygen
+Generating public/private rsa key pair.
+Enter file in which to save the key (/home/debian/.ssh/id_rsa):
+/home/debian/.ssh/id_rsa already exists.
+Overwrite (y/n)? y
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in /home/debian/.ssh/id_rsa.
+Your public key has been saved in /home/debian/.ssh/id_rsa.pub.
+The key fingerprint is:
+aa:e9:1b:bb:95:5c:94:a4:cd:65:f1:32:aa:27:33:34 debian@704839317.lasr.cs.ucla.edu
+The key's randomart image is:
++---[RSA 2048]----+
+|        . +.     |
+|       = + .     |
+|      . = o .    |
+|       . . o     |
+|      E S        |
+|     o *         |
+|    . X .        |
+|     * =         |
+|   .Bo           |
++-----------------+
+debian@704839317:/home/niki$ ssh-copy-id -i hun@192.168.43.66
+The authenticity of host '192.168.43.66 (192.168.43.66)' can't be established.
+ECDSA key fingerprint is 43:e2:27:38:24:f7:3f:34:30:35:22:3a:93:6e:5f:62.
+Are you sure you want to continue connecting (yes/no)? yes
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that
+are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now
+it is to install the new keys Debian GNU/Linux 8
+
+BeagleBoard.org Debian Image 2018-02-01
+
+Support/FAQ: http://elinux.org/Beagleboard:BeagleBoneBlack_Debian
+
+default username:password is [debian:temppwd]
+
+hun@192.168.43.66's password:
+Permission denied, please try again.
+hun@192.168.43.66's password:
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh 'hun@192.168.43.66'"
+and check to make sure that only the key(s) you wanted were added.
+
+$ ssh hun@192.168.43.66
+The authenticity of host '192.168.43.66 (192.168.43.66)' can't be established.
+ECDSA key fingerprint is 43:e2:27:38:24:f7:3f:34:30:35:22:3a:93:6e:5f:62.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added '192.168.43.66' (ECDSA) to the list of known hosts.
+Debian GNU/Linux 8
+
+BeagleBoard.org Debian Image 2018-02-01
+
+Support/FAQ: http://elinux.org/Beagleboard:BeagleBoneBlack_Debian
+
+default username:password is [debian:temppwd]
+
+hun@192.168.43.66's password:
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+Last login: Sun Mar  4 04:46:52 2018 from 192.168.43.173
+
+$ ssh-add
+Could not open a connection to your authentication agent.
+$ ^C
+$ eval `ssh-agent -s`
+Agent pid 17715
+$ ssh-add
+
+$ ssh hun@192.168.43.66
+$ ls
+$ touch madeit
+$ ls
+madeit
+
+debian@704839317:~$ ssh -X hun@192.168.43.66
+Debian GNU/Linux 8
+
+BeagleBoard.org Debian Image 2018-02-01
+
+Support/FAQ: http://elinux.org/Beagleboard:BeagleBoneBlack_Debian
+
+default username:password is [debian:temppwd]
+
+Enter passphrase for key '/home/debian/.ssh/id_rsa':
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+Last login: Wed May 23 03:36:08 2018 from 192.168.43.173
+
+xterm
+$ xterm
+xterm: cannot load font '-misc-fixed-medium-r-semicondensed--13-120-75-75-c-60-iso10646-1'
+
+xterm worked correctly with the graphic. but only after i had to set it up the right way.

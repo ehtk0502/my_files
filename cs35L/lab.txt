@@ -1,0 +1,129 @@
+1.tr2b.c coded
+2.tr2u.c coded
+then
+gcc -o tr2b tr2b.c
+gcc -o tr2u tr2u.c
+
+3. head --bytes=5000000 /dev/urandom > tfile.txt
+using this comman i made the test file.
+
+a. strace -c ./tr2b 'a' 'c' < tfile.txt > copy
+
+[byung@lnxsrv04 ~/Desktop/CS35L/lab5]$ strace -c ./tr2b 'a' 'c' < tfile.txt > copy
+% time     seconds  usecs/call     calls    errors syscall
+------ ----------- ----------- --------- --------- ----------------
+  0.00    0.000000           0         2           read
+  0.00    0.000000           0         1           write
+  0.00    0.000000           0         2           open
+  0.00    0.000000           0         2           close
+  0.00    0.000000           0         4           fstat
+  0.00    0.000000           0        10           mmap
+  0.00    0.000000           0         3           mprotect
+  0.00    0.000000           0         1           munmap
+  0.00    0.000000           0         1           brk
+  0.00    0.000000           0         1         1 access
+  0.00    0.000000           0         1           execve
+  0.00    0.000000           0         1           arch_prctl
+------ ----------- ----------- --------- --------- ----------------
+100.00    0.000000                    29         1 total
+
+py1ung@lnxsrv04 ~/Desktop/CS35L/lab5]$ strace -c ./tr2u 'a' 'c' < tfile.txt > cop
+% time     seconds  usecs/call     calls    errors syscall
+------ ----------- ----------- --------- --------- ----------------
+ 56.51    0.389846           0   5000000           write
+ 43.49    0.300082           0   5000002           read
+  0.00    0.000000           0         2           open
+  0.00    0.000000           0         2           close
+  0.00    0.000000           0         2           fstat
+  0.00    0.000000           0         8           mmap
+  0.00    0.000000           0         3           mprotect
+  0.00    0.000000           0         1           munmap
+  0.00    0.000000           0         1           brk
+  0.00    0.000000           0         1         1 access
+  0.00    0.000000           0         1           execve
+  0.00    0.000000           0         1           arch_prctl
+------ ----------- ----------- --------- --------- ----------------
+100.00    0.689928              10000024         1 total
+
+
+
+
+b. [byung@lnxsrv04 ~/Desktop/CS35L/lab5]$ strace -c ./tr2b 'a' 'c' < tfile.txt
+------ ----------- ----------- --------- --------- ----------------
+  0.00    0.000000           0         2           read
+  0.00    0.000000           0        13           write
+  0.00    0.000000           0         2           open
+  0.00    0.000000           0         2           close
+  0.00    0.000000           0         4           fstat
+  0.00    0.000000           0        10           mmap
+  0.00    0.000000           0         3           mprotect
+  0.00    0.000000           0         1           munmap
+  0.00    0.000000           0         1           brk
+  0.00    0.000000           0         1         1 access
+  0.00    0.000000           0         1           execve
+  0.00    0.000000           0         1           arch_prctl
+------ ----------- ----------- --------- --------- ----------------
+100.00    0.000000                    41         1 total
+
+[byung@lnxsrv04 ~/Desktop/CS35L/lab5]$ strace -c ./tr2u 'a' 'c' < tfile.txt
+time     seconds  usecs/call     calls    errors syscall
+------ ----------- ----------- --------- --------- ----------------
+ 56.26    0.554895           0   5000000           write
+ 43.74    0.431367           0   5000002           read
+  0.00    0.000025           8         3           mprotect
+  0.00    0.000000           0         2           open
+  0.00    0.000000           0         2           close
+  0.00    0.000000           0         2           fstat
+  0.00    0.000000           0         8           mmap
+  0.00    0.000000           0         1           munmap
+  0.00    0.000000           0         1           brk
+  0.00    0.000000           0         1         1 access
+  0.00    0.000000           0         1           execve
+  0.00    0.000000           0         1           arch_prctl
+------ ----------- ----------- --------- --------- ----------------
+100.00    0.986287              10000024         1 total
+
+
+
+tr2u takes substantially longer than tr2b. I had to wait for tr2u to finish 
+for a couple of minuits 5000000 systems calls has been made for tr2u. no 
+wonder why it takes that long. and compare part b to a, part b takes 
+considerably shorter amount of time. i am assuming part a takes
+longer because of the copy files that has to be made.
+
+[byung@lnxsrv04 ~/Desktop/CS35L/lab5]$ time ./tr2b 'a' 'b' < tfile.txt >a
+
+real    0m0.004s
+user    0m0.001s
+sys     0m0.001s
+
+
+[byung@lnxsrv04 ~/Desktop/CS35L/lab5]$ time ./tr2u 'a' 'b' < tfile.txt >aa
+
+real    0m9.232s
+user    0m1.145s
+sys     0m8.022s
+
+[byung@lnxsrv04 ~/Desktop/CS35L/lab5]$ time ./tr2b 'a' 'b' < tfile.txt
+real    0m0.002s
+user    0m0.001s
+sys     0m0.000s
+
+[byung@lnxsrv04 ~/Desktop/CS35L/lab5]$ time ./tr2u 'a' 'b' < tfile.txt
+real    0m9.899s
+user    0m1.154s
+sys     0m8.667s
+
+the time for tr2u takes way longer than tr2b.
+however when the tr2u is compared to itself for copying file
+the time shown contradicts my assumption. when i actually ran the file
+it took way longer for the copying process to complete.
+But from this experiment we see that buffered operation is way faster
+than unbuffered process.
+
+
+
+
+
+
+
