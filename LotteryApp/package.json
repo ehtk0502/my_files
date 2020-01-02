@@ -1,0 +1,21 @@
+{
+  "name": "lotteryapp",
+  "version": "1.0.0",
+  "description": "lottery proto",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Hun Lee",
+  "license": "ISC",
+  "keywords": [],
+  "dependencies": {
+    "ganache-cli": "^6.7.0",
+    "solc": "^0.4.25",
+    "web3": "^1.2.4",
+    "windows-build-tools": "^5.2.2"
+  },
+  "devDependencies": {
+    "mocha": "^6.2.2"
+  }
+}
