@@ -2,7 +2,7 @@ pragma solidity ^0.4.25;
 
 contract Funds{
     address private manager;
-    int private fund;
+    uint private fund;
     
     function Funds() public{
         manager = msg.sender;
@@ -17,10 +17,12 @@ contract Funds{
         fund  = 0;
     }
     
-    function getFund() public{
+    function getFund() public view returns (uint){
+        return fund;
     }
     
-    function getManager() public{
+    function getManager() public view returns (address){
+        return manager;
     }
     
     function payWinner(address winner) public{
