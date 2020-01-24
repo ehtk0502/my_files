@@ -2,30 +2,28 @@ pragma solidity ^0.4.25;
 
 contract Funds{
     address private manager;
-    uint private fund;
     
-    function Funds() public{
+    constructor() public{
         manager = msg.sender;
-        fund = 0;
     }
     
-    function addFund(int payment) public{
-        fund = fund + payment;
-    }
-
-    function resetFund() public{
-        fund  = 0;
+    function recieveFund() public payable{
+        assert(msg.value >= .001 ether);
     }
     
-    function getFund() public view returns (uint){
-        return fund;
+    function payWinner(address winner) public{
+        
+        assert(msg.sender == manager);
+        
+        winner.transfer(address(this).balance);
     }
     
     function getManager() public view returns (address){
         return manager;
     }
     
-    function payWinner(address winner) public{
-        fund = 0;
+    function getAmount() public view returns (uint){
+        return address(this).balance;
     }
+
 }
