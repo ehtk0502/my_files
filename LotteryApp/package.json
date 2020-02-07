@@ -10,9 +10,10 @@
   "license": "ISC",
   "keywords": [],
   "dependencies": {
+    "@truffle/hdwallet-provider": "^1.0.29",
     "ganache-cli": "^6.7.0",
     "solc": "^0.4.25",
-    "web3": "^1.2.4",
+    "web3": "^1.2.5-rc.0",
     "windows-build-tools": "^5.2.2"
   },
   "devDependencies": {
