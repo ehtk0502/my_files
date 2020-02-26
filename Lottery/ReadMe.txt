@@ -1,0 +1,5 @@
+This is a simple lottery application platform prototype. This platform is unique in a way that it uses Ethereum network to store and manage funds. This allows you to reach out to a variety of customers from anywhere in the world. Other non-trivial data is store in a relational database. In this project, I use MySQL. I programmed two web servers to implement a simple user interface where they can perform certain actions. The first one is a front-end web server where users can send in transactions to Ethereum Network and see how much fund is stored in the smart contract. The second server is an express back-end server that takes POST request and work with the database. The front-end react server uses Cross-Origin-Resource-Sharing and a fetch request to achieve this.
+
+The Solidity smart contract is tested using mocha.
+
+While this platform has majority of the functionalities implemented, many others are missing. Furthermore, no security measures were taken into consideration while building the application.

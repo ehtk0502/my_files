@@ -11,7 +11,11 @@
   "keywords": [],
   "dependencies": {
     "@truffle/hdwallet-provider": "^1.0.29",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
     "ganache-cli": "^6.7.0",
+    "mysql": "^2.18.1",
     "solc": "^0.4.25",
     "web3": "^1.2.5-rc.0",
     "windows-build-tools": "^5.2.2"
