@@ -22,7 +22,11 @@ const App: () => React$Node = () => {
   return (
     <>
       <StatusBar barStyle="dark-content" />
-      <MapView style={{flex:0.5}}
+      <View style={styles.Menu}>
+        <Text style={styles.Logo}> WhereIs </Text>
+      </View>
+      <MapView
+        style={styles.Map}
         initialRegion={{
           latitude: 37.78825,
           longitude: -122.4324,
@@ -33,5 +37,22 @@ const App: () => React$Node = () => {
     </>
   );
 };
+
+const styles = StyleSheet.create({
+  Map: {
+    flex: 0.5,
+  },
+  Logo: {
+    fontSize: 20,
+    fontStyle: 'italic',
+    fontWeight: 'bold',
+    alignSelf: 'center',
+    color: 'white',
+  },
+  Menu: {
+    flex: 0.05,
+    backgroundColor: 'black',
+  },
+});
 
 export default App;
