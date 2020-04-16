@@ -9,6 +9,8 @@ import {
   TouchableOpacity,
   Image,
   PermissionsAndroid,
+  Button,
+  Alert,
 } from 'react-native';
 
 import MapView, {Marker} from 'react-native-maps';
@@ -21,6 +23,9 @@ export default class App extends Component {
     this._displaySearchBar = this._displaySearchBar.bind(this);
     this.requestPermission = this.requestPermission.bind(this);
     this._changeRegion = this._changeRegion.bind(this);
+    this._displaySavedLocations = this._displaySavedLocations.bind(this);
+    this._savedButtonPressed = this._savedButtonPressed.bind(this);
+
     this.state = {
       searchBar: false,
       m_pos: {
@@ -29,6 +34,8 @@ export default class App extends Component {
         latitudeDelta: 0.00922,
         longitudeDelta: 0.00421,
       },
+      locations: [],
+      isSaved: false,
     };
   }
 
@@ -78,7 +85,7 @@ export default class App extends Component {
 
   _onPressButton() {
     this.setState(state => {
-      return (state.searchBar = !this.state.searchBar);
+      return (state.searchBar = !state.searchBar);
     });
   }
 
@@ -86,10 +93,14 @@ export default class App extends Component {
     if (this.state.searchBar) {
       return (
         <View>
-          <TouchableOpacity style={styles.DropDown}>
+          <TouchableOpacity
+            onPress={() => this._onPressButton()}
+            style={styles.DropDown}>
             <Text style={{color: 'white'}}>Home</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.DropDown}>
+          <TouchableOpacity
+            onPress={() => this._onPressButton()}
+            style={styles.DropDown}>
             <Text style={{color: 'white'}}>About</Text>
           </TouchableOpacity>
         </View>
@@ -99,12 +110,31 @@ export default class App extends Component {
     }
   }
 
+  _displaySavedLocations() {
+    if (this.state.isSaved) {
+      return null;
+    } else {
+      return (
+        <View style={{alignSelf: 'center', paddingTop: 100}}>
+          <Text style={{fontSize: 20}}> No Saved Location </Text>
+        </View>
+      );
+    }
+  }
+  /*
+  this.state.m_pos.latitude = parseFloat(position.coords.latitude);
+  this.state.m_pos.longitude = parseFloat(position.coords.longitude);
+   */
   _changeRegion() {
     Geolocation.getCurrentPosition(
       position => {
         this.setState(state => {
-          state.m_pos.longitude = parseFloat(position.coords.longitude);
-          state.m_pos.latitude = parseFloat(position.coords.latitude);
+          return ({m_pos: {
+              latitude: parseFloat(position.coords.latitude),
+              longitude: parseFloat(position.coords.longitude),
+              latitudeDelta: 0.00922,
+              longitudeDelta: 0.00421,
+            }});
         });
       },
       err => {
@@ -114,6 +144,31 @@ export default class App extends Component {
     );
   }
 
+  _savedButtonPressed() {
+    Alert.alert(
+      'Save Current Location?',
+      '',
+      [
+        {text: 'No'},
+        {
+          Text: 'Yes',
+          onPress: () => {
+            this.state.locations.push([
+              this.state.m_pos.latitude,
+              this.state.m_pos.longitude,
+            ]);
+          },
+        },
+      ],
+      {cancelable: false},
+    );
+    console.log(this.state.locations);
+  }
+  /*
+  https://maps.googleapis.com/maps/api/directions/json?
+      origin=Toronto&destination=Montreal
+  &key=YOUR_API_KEY
+  */
   render() {
     return (
       <>
@@ -125,10 +180,20 @@ export default class App extends Component {
         <MapView
           style={styles.Map}
           region={this.state.m_pos}
-          onRegionChange={this._changeRegion()}
-        >
-          <Marker coordinate={{latitude: 37.421998, longitude: -122.084}} title='myLoc' description='this is my loc'/>
+          onRegionChange={this._changeRegion()}>
+          <Marker
+            coordinate={{latitude: 37.421998, longitude: -122.084}}
+            title="myLoc"
+            description="this is my loc"
+          />
         </MapView>
+        <Button
+          onPress={() => this._savedButtonPressed()}
+          title="Save Current Location"
+        />
+        <ScrollView style={{flex: 0.4}}>
+          {this._displaySavedLocations()}
+        </ScrollView>
         <View style={{position: 'absolute'}}>
           <TouchableOpacity
             onPress={() => this._onPressButton()}
@@ -147,7 +212,7 @@ export default class App extends Component {
 
 const styles = StyleSheet.create({
   Map: {
-    flex: 0.5,
+    flex: 1,
   },
   Logo: {
     fontSize: 20,
