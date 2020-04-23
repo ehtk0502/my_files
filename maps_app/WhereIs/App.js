@@ -112,8 +112,14 @@ export default class App extends Component {
 
   _displaySavedLocations() {
     if (this.state.isSaved) {
-      return null;
-    } else {
+      return this.state.locations.map((element, index) => {return(
+          <View style={{borderColor:'black', borderWidth: 1}}>
+            <Button title={"Location "+ (index+1)}/>
+          </View>
+      )});
+
+    }
+    else {
       return (
         <View style={{alignSelf: 'center', paddingTop: 100}}>
           <Text style={{fontSize: 20}}> No Saved Location </Text>
@@ -157,6 +163,7 @@ export default class App extends Component {
               this.state.m_pos.latitude,
               this.state.m_pos.longitude,
             ]);
+            this.state.isSaved = true;
           },
         },
       ],
