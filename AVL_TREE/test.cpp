@@ -12,8 +12,8 @@ int main(){
     unordered_set<int> m_set;
     vector<int> rand_arr;
 
-    for(int i=0; i < 100; i++){
-        int random = (int)(rand()%101);
+    for(int i=0; i < 300; i++){
+        int random = (int)(rand()%1001);
         
         if(m_set.find(random) == m_set.end()){
             rand_arr.push_back(random);
@@ -52,6 +52,7 @@ int main(){
     m_tree->insert(4);
 
 */
+    m_tree->isBlanced();
     m_tree->clear();
     cout << "works" << endl;
     cout << rand_arr.size() << endl;
